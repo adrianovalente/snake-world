@@ -20,6 +20,8 @@
   var c = document.getElementById('canvas');
   var ctx = c.getContext('2d');
   var interval;
+  var food;
+  var can_turn = true;
 
   var size = { x: c.width / scenario.width, y: c.height / scenario.height }
 
@@ -32,7 +34,7 @@
   };
   var direction = Direction.RIGHT;
 
-
+  init_food();
   init_snake();
   update_snake();
   interval = setInterval(update_snake, 60);
@@ -40,6 +42,10 @@
 
   // listening to keyboard events
   window.addEventListener('keydown', function(e) {
+
+    if (!can_turn) return;
+    can_turn = false;
+
     if (e.keyCode === 39) if (direction != Direction.LEFT)  direction = Direction.RIGHT;
     if (e.keyCode === 37) if (direction != Direction.RIGHT) direction = Direction.LEFT;
     if (e.keyCode === 38) if (direction != Direction.DOWN)  direction = Direction.UP;
@@ -49,6 +55,13 @@
   function init_snake() {
     for (var i = 0; i < 5; i++) {
       snake.push({ x: i, y:0 })
+    }
+  }
+
+  function init_food() {
+    food = {
+      x: Math.floor(Math.random() * scenario.width),
+      y: Math.floor(Math.random() * scenario.height)
     }
   }
 
@@ -62,10 +75,16 @@
     if (direction === Direction.UP) new_head.y --;
     if (direction === Direction.DOWN) new_head.y ++;
 
-    snake.shift();
     snake.push(new_head);
 
+    if(new_head.x == food.x && new_head.y == food.y) {
+      init_food();
+    } else {
+      snake.shift();
+    }
+
     draw();
+    can_turn = true;
 
   }
 
@@ -76,14 +95,15 @@
     ctx.clearRect(0, 0, c.width, c.height);
 
     ctx.fillStyle = '#FF0000';
+
+    ctx.fillRect(food.x * size.x, food.y * size.y, size.x, size.y)
+
     for (var i = 0; i < snake.length; i++) {
       var head = snake[i];
       ctx.fillRect(head.x * size.x, head.y * size.y, size.x, size.y)
     }
 
   }
-
-  function debug() { console.log(JSON.stringify(snake)) }
 
 
 
