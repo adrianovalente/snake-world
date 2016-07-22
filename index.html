@@ -6,10 +6,22 @@
     #canvas {
       border: 1px solid;
     }
+
+    #game-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
   </style>
 </head>
 <body>
-  <canvas id="canvas" width="600" height="600"></canvas>
+  <div id="game-container">
+    <canvas id="canvas" width="600" height="600"></canvas><br/>
+    <h3 id="score-label">Your score: 0</h3>
+  </div>
 </body>
 
 
@@ -19,26 +31,19 @@
 
   var c = document.getElementById('canvas');
   var ctx = c.getContext('2d');
-  var interval;
-  var food;
+  var interval, food, direction, snake, score;
   var can_turn = true;
+  var maxScore = 0;
 
   var size = { x: c.width / scenario.width, y: c.height / scenario.height }
 
-
-  var snake = [];
 
   var Direction = {
     RIGHT: 0, LEFT: 1,
     UP: 2, DOWN: 3
   };
-  var direction = Direction.RIGHT;
 
-  init_food();
-  init_snake();
-  update_snake();
-  interval = setInterval(update_snake, 60);
-
+  start();
 
   // listening to keyboard events
   window.addEventListener('keydown', function(e) {
@@ -78,16 +83,34 @@
     snake.push(new_head);
 
     if(new_head.x == food.x && new_head.y == food.y) {
+
+      score++;
+      document.getElementById('score-label').textContent = 'Your score: ' + score;
+
       init_food();
+
     } else {
       snake.shift();
     }
+
+    if (should_die()) die();
 
     draw();
     can_turn = true;
 
   }
 
+
+  function should_die() {
+    var snake_head = snake[snake.length - 1];
+    if (snake_head.x < 0 || snake_head.x > scenario.width) return true;
+    if (snake_head.y < 0 || snake_head.y > scenario.height) return true;
+
+    for (var i = 0; i < snake.length - 1; i++) {
+      var pixel = snake[i];
+      if (pixel.x == snake_head.x && pixel.y == snake_head.y) return true;
+    }
+  }
 
   function draw() {
 
@@ -105,7 +128,23 @@
 
   }
 
+  function die() {
+    clearInterval(interval);
+    if (score > maxScore) maxScore = score;
+    alert('You lost!\nYour score: ' + score + '\nMax score: ' + maxScore);
+    start();
+  }
 
+  function start() {
+    score = 0;
+    document.getElementById('score-label').textContent = 'Your score: ' + score;
+    direction = Direction.RIGHT;
+    snake = [];
+    init_food();
+    init_snake();
+    update_snake();
+    interval = setInterval(update_snake, 60);
+  }
 
 
 
