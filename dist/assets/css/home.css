@@ -3,5 +3,13 @@
   left: 50%;
   transform: translateX(-50%);
   width: 16%;
+}
 
+.score {
+  height: 60px;
+  float: right;
+}
+
+.score + .score {
+  margin-right: 12px;
 }
