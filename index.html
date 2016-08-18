@@ -24,8 +24,11 @@
   </div>
 </body>
 
-
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script type="text/javascript">
+
+
+  var socket = io();
 
   var scenario = { height: 40, width: 40 };
 
@@ -43,7 +46,37 @@
     UP: 2, DOWN: 3
   };
 
-  start();
+  socket.on('update', function(positions) {
+
+    positions = JSON.parse(positions);
+    food = positions.food;
+    snake = positions.snake;
+    draw();
+
+  });
+
+  socket.on('lost', function(data) {
+
+    data = JSON.parse(data);
+    alert('you lost! score: ' + data.score);
+    window.location.reload();
+
+  });
+
+  socket.on('score', function(data) {
+    data = JSON.parse(data);
+    document.getElementById('score-label').textContent = 'Your score: ' + data.score;
+  });
+
+
+
+  function changeDirection(dir) {
+
+    socket.emit('direction', JSON.stringify({dir : dir}));
+    direction = dir;
+  }
+
+
 
   // listening to keyboard events
   window.addEventListener('keydown', function(e) {
@@ -51,10 +84,10 @@
     if (!can_turn) return;
     can_turn = false;
 
-    if (e.keyCode === 39) if (direction != Direction.LEFT)  direction = Direction.RIGHT;
-    if (e.keyCode === 37) if (direction != Direction.RIGHT) direction = Direction.LEFT;
-    if (e.keyCode === 38) if (direction != Direction.DOWN)  direction = Direction.UP;
-    if (e.keyCode === 40) if (direction != Direction.UP)    direction = Direction.DOWN;
+    if (e.keyCode === 39) if (direction != Direction.LEFT)  changeDirection(Direction.RIGHT);
+    if (e.keyCode === 37) if (direction != Direction.RIGHT) changeDirection(Direction.LEFT);
+    if (e.keyCode === 38) if (direction != Direction.DOWN)  changeDirection(Direction.UP);
+    if (e.keyCode === 40) if (direction != Direction.UP)    changeDirection(Direction.DOWN);
   });
 
   function init_snake() {
@@ -63,56 +96,10 @@
     }
   }
 
-  function init_food() {
-    food = {
-      x: Math.floor(Math.random() * scenario.width),
-      y: Math.floor(Math.random() * scenario.height)
-    }
-  }
-
-  function update_snake() {
-    var snake_head = snake[snake.length - 1];
-
-    var new_head = { x: snake_head.x, y: snake_head.y}
-
-    if (direction === Direction.RIGHT)  new_head.x ++;
-    if (direction === Direction.LEFT) new_head.x --;
-    if (direction === Direction.UP) new_head.y --;
-    if (direction === Direction.DOWN) new_head.y ++;
-
-    snake.push(new_head);
-
-    if(new_head.x == food.x && new_head.y == food.y) {
-
-      score++;
-      document.getElementById('score-label').textContent = 'Your score: ' + score;
-      init_food();
-
-    } else {
-      snake.shift();
-    }
-
-    if (should_die()) die();
-
-    draw();
-    can_turn = true;
-
-  }
-
-
-  function should_die() {
-    var snake_head = snake[snake.length - 1];
-    if (snake_head.x < 0 || snake_head.x > scenario.width) return true;
-    if (snake_head.y < 0 || snake_head.y > scenario.height) return true;
-
-    for (var i = 0; i < snake.length - 1; i++) {
-      var pixel = snake[i];
-      if (pixel.x == snake_head.x && pixel.y == snake_head.y) return true;
-    }
-  }
 
   function draw() {
 
+    can_turn = true;
     // cleaning the canvas
     ctx.clearRect(0, 0, c.width, c.height);
 
@@ -127,23 +114,6 @@
 
   }
 
-  function die() {
-    clearInterval(interval);
-    if (score > maxScore) maxScore = score;
-    alert('You lost!\nYour score: ' + score + '\nMax score: ' + maxScore);
-    start();
-  }
-
-  function start() {
-    score = 0;
-    document.getElementById('score-label').textContent = 'Your score: ' + score;
-    direction = Direction.RIGHT;
-    snake = [];
-    init_food();
-    init_snake();
-    update_snake();
-    interval = setInterval(update_snake, 60);
-  }
 
 
 
