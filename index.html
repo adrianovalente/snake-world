@@ -90,13 +90,6 @@
     if (e.keyCode === 40) if (direction != Direction.UP)    changeDirection(Direction.DOWN);
   });
 
-  function init_snake() {
-    for (var i = 0; i < 5; i++) {
-      snake.push({ x: i, y:0 })
-    }
-  }
-
-
   function draw() {
 
     can_turn = true;
@@ -113,9 +106,6 @@
     }
 
   }
-
-
-
 
 </script>
 
