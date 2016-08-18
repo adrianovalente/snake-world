@@ -1,10 +1,14 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var uuid = require('node-uuid');
 var io = require('socket.io')(http);
 var port = process.env.PORT|| 3000;
 var players = require('./playersController');
 var Player = require('./player')
+
+
+app.use(express.static('dist'));
 
 app.get('/', function(req, res){
   res.sendFile(require('path').join(__dirname, '/index.html'));
