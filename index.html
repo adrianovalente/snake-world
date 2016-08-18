@@ -46,6 +46,15 @@
     UP: 2, DOWN: 3
   };
 
+
+  socket.on('hello', function (id) {
+
+    var name = prompt('Hello user! Enter your name');
+    socket.emit('hello', JSON.stringify({ name: name, id: id }))
+
+
+  });
+
   socket.on('update', function(positions) {
 
     positions = JSON.parse(positions);
