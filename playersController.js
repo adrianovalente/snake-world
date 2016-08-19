@@ -5,11 +5,17 @@ var games = require('./gamesController');
 var PlayerStatus = constants.PlayerStatus;
 var Game = require('./game.js');
 
+
+
 module.exports = {
 
   attach: function (player) {
     players.push(player);
     //player.wantsToPlay()
+  },
+
+  reset: function () {
+    players = []
   }
 
 }

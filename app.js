@@ -10,16 +10,21 @@ var Player = require('./player')
 
 app.use(express.static('dist'));
 
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
   res.sendFile(require('path').join(__dirname, '/index.html'));
 });
+
+app.get('/resetAllPlayers', function (req, res) {
+  players.reset();
+  res.send('Nice!');
+})
 
 http.listen(port, function(){
   console.log('listening on port ' + port);
 });
 
 
-io.on('connection', function(socket){
+io.on('connection', function (socket) {
 
   var id = uuid.v4();
   console.log('a player connected: ' + id);
