@@ -166,7 +166,7 @@ module.exports = function (playerA, playerB) {
 
 
 
-  }, 400)
+  }, 200)
 
 
 

@@ -21,11 +21,6 @@ var homeCtrl = function ($interval, $uibModal) {
   var maxScore = 0;
   var size = { x: c.width / scenario.width, y: c.height / scenario.height }
 
-  $interval(function () {
-    score++;
-    vm.score = decodeScore(score);
-  }, 1000);
-
 
   var Direction = {
     RIGHT: 0, LEFT: 1,
@@ -90,7 +85,11 @@ var homeCtrl = function ($interval, $uibModal) {
 
   socket.on('score', function(data) {
     data = JSON.parse(data);
-    document.getElementById('score-label').textContent = 'Your score: ' + data.score;
+
+    score = data.score;
+    vm.score = decodeScore(score);
+
+
   });
 
 
