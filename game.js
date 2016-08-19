@@ -166,13 +166,13 @@ module.exports = function (playerA, playerB) {
 
 
 
-  }, 200)
+  }, 400)
 
 
 
 };
 
-function should_die(snake) {
+function should_die(snake, otherSnake) {
   var snake_head = snake[snake.length - 1];
   if (snake_head.x < 0 || snake_head.x > scenario.width) return true;
   if (snake_head.y < 0 || snake_head.y > scenario.height) return true;
@@ -181,4 +181,10 @@ function should_die(snake) {
     var pixel = snake[i];
     if (pixel.x == snake_head.x && pixel.y == snake_head.y) return true;
   }
+
+  for (i = 0; i < otherSnake.length - 1; i++) {
+    pixel = otherSnake[i];
+    if (pixel.x == snake_head.x && pixel.y == snake_head.y) return true;
+  }
+
 }

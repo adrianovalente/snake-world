@@ -32,15 +32,16 @@ function arrangeMatches() {
 
     console.log('entrou');
 
-    /**
+
     var player1 = pendingPlayers.pop();
     var player2 = pendingPlayers.pop();
 
     player1.status = PlayerStatus.PLAYING;
     player2.status = PlayerStatus.PLAYING;
-     */
 
-    games.attach(new Game(players.pop(), players.pop()));
+
+    games.attach(new Game(player1, player2));
+    //games.attach(new Game(players.pop(), players.pop()));
     arrangeMatches()
   }
 }

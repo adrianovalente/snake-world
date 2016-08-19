@@ -17,13 +17,11 @@ var homeCtrl = function ($interval, $uibModal) {
   vm.score = decodeScore(0);
   vm.user  = decodeStr('Usuario');
   vm.message  = decodeStr('Searching for opponent...');
-  var score = 0;
   var scenario = { height: 40, width: 40 };
   var c = document.getElementById('canvas');
   var ctx = c.getContext('2d');
-  var interval, food, direction, snake, score, otherPlayer;
+  var food, direction, snake, score, otherPlayer;
   var can_turn = true;
-  var maxScore = 0;
   var size = { x: c.width / scenario.width, y: c.height / scenario.height }
 
   var Direction = {
@@ -61,7 +59,7 @@ var homeCtrl = function ($interval, $uibModal) {
   });
 
   socket.on('update', function(positions) {
-    console.log('update!', positions)
+    console.log('update!', positions);
 
     positions = JSON.parse(positions);
 
