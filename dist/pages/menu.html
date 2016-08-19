@@ -4,7 +4,7 @@
       <img ng-repeat="i in vm.message track by $index" ng-src="assets/images/{{i}}.png" class="username"/>
       <label for="name">
         <div class="block">
-            <img ng-repeat="i in vm.name track by $index" ng-src="assets/images/{{i}}.png" class="username"/>
+            <img ng-repeat="i in vm.name track by $index" ng-src="assets/images/{{i.toUpperCase()}}.png" class="username"/>
         </div>
         <div class="block">
             <div class="invisible-block">
