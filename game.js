@@ -112,6 +112,7 @@ module.exports = function (playerA, playerB) {
                 score: playerA.score
               }));
 
+              playerB.wins++
               playerB.socket.emit('win', JSON.stringify({
                 score: playerB.score
               }));
@@ -153,6 +154,7 @@ module.exports = function (playerA, playerB) {
                 score: playerB.score
               }));
 
+              playerA.wins++
               playerA.socket.emit('win', JSON.stringify({
                 score: playerA.score
               }));

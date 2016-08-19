@@ -10,6 +10,7 @@ module.exports = function (id, name, socket) {
   self.status = PlayerStatus.IDLE;
   self.socket = socket;
   self.snake = [];
+  self.wins = 0;
 
   self.socket.on('request', function () {
     self.wantsToPlay()

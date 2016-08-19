@@ -35,3 +35,20 @@
 <div id="game-container" ng-show="vm.status=='playing'">
   <canvas id="canvas" width="600" height="600"></canvas><br/>
 </div>
+
+<div class="top-players">
+
+  <div ng-show="!vm.topPlayers.length">
+    Parece que não tem ninguém jogando :(
+  </div>
+
+  <div ng-show="!!vm.topPlayers.length">
+    <h3>Top players so far:</h3>
+    <ul>
+      <li ng-repeat="player in vm.topPlayers">
+        {{player.name}} - {{player.wins}} vitórias
+      </li>
+    </ul>
+  </div>
+
+</div>

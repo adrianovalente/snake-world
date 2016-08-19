@@ -1,0 +1,12 @@
+.top-players {
+    position: absolute;
+    border: 1px solid;
+    padding: 20px;
+    background: #dae8d4;
+    right: 20px;
+    bottom: 20px;
+}
+
+.top-players > ul > li {
+    font-size: 20pt;
+}

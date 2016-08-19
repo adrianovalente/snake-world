@@ -31,9 +31,17 @@ function decodeStr(decode) {
 var homeCtrl = function ($interval, $uibModal, $stateParams, $state, $scope) {
   var vm = this;
 
+  vm.topPlayers = []
+
   vm.status = ControllerStatus.IDLE;
 
   var socket = io();
+
+  socket.on('topPlayers', function (data) {
+    vm.topPlayers = JSON.parse(data)
+    $scope.$apply()
+  })
+
   vm.score = decodeScore(0);
   vm.user = decodeStr($stateParams.name);
   vm.message  = decodeStr('Searching for opponent');

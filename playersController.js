@@ -15,6 +15,17 @@ module.exports = {
 }
 
 setInterval(function () {
+  var message = _.reverse(_.orderBy(_.map(players, function (player) {
+    return { name: player.name.join(''), wins: player.wins }
+  }), 'wins'))
+
+  _.forEach(players, function (player) {
+    player.socket.emit('topPlayers', JSON.stringify(message))
+  })
+
+}, 1000);
+
+setInterval(function () {
   players = _.filter(players, function (player) {
     return player.status != 'removed'
   });
