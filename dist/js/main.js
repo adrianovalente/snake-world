@@ -3,7 +3,7 @@ angular
 
   .config(function routing($urlRouterProvider, $locationProvider, $stateProvider) {
     console.log('routes loaded!');
-    $urlRouterProvider.otherwise('/welcome');
+    $urlRouterProvider.otherwise('/menu');
 
     $stateProvider
       .state('home', {
