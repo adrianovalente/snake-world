@@ -11,6 +11,10 @@ module.exports = function (id, name, socket) {
   self.socket = socket;
   self.snake = [];
 
+  self.socket.on('request', function () {
+    self.wantsToPlay()
+  });
+
   self.wantsToPlay = function () {
     self.status = PlayerStatus.WAITING;
   }

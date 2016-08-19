@@ -90,7 +90,7 @@ module.exports = function (playerA, playerB) {
       snake.shift();
     }
 
-    if (should_die(snake)) {
+    if (should_die(snake, playerB.snake)) {
       clearInterval(self.interval);
       self.status = constants.GameStatus.ENDED;
       playerA.socket.emit('lost', JSON.stringify({
@@ -137,7 +137,7 @@ module.exports = function (playerA, playerB) {
     }
 
     // it means that playerB has lost
-    if (should_die(snake)) {
+    if (should_die(snake, playerA.snake)) {
       clearInterval(self.interval);
       self.status = constants.GameStatus.ENDED;
       playerB.socket.emit('lost', JSON.stringify({
