@@ -16,7 +16,7 @@ var homeCtrl = function ($interval, $uibModal) {
   var scenario = { height: 40, width: 40 };
   var c = document.getElementById('canvas');
   var ctx = c.getContext('2d');
-  var interval, food, direction, snake, score;
+  var interval, food, direction, snake, score, otherPlayer;
   var can_turn = true;
   var maxScore = 0;
   var size = { x: c.width / scenario.width, y: c.height / scenario.height }
@@ -60,9 +60,14 @@ var homeCtrl = function ($interval, $uibModal) {
 
   socket.on('update', function(positions) {
 
+    console.log(positions)
+
     positions = JSON.parse(positions);
+
     food = positions.food;
-    snake = positions.snake;
+    snake = positions.you;
+    otherPlayer = positions.other;
+    direction = positions.direction;
     draw();
 
   });
@@ -71,6 +76,14 @@ var homeCtrl = function ($interval, $uibModal) {
 
     data = JSON.parse(data);
     alert('you lost! score: ' + data.score);
+    window.location.reload();
+
+  });
+
+  socket.on('win', function(data) {
+
+    data = JSON.parse(data);
+    alert('you WIN!!!!! score: ' + data.score);
     window.location.reload();
 
   });
@@ -114,6 +127,13 @@ var homeCtrl = function ($interval, $uibModal) {
 
     for (var i = 0; i < snake.length; i++) {
       var head = snake[i];
+      ctx.fillRect(head.x * size.x, head.y * size.y, size.x, size.y)
+    }
+
+    ctx.fillStyle = '#00FF00';
+
+    for (i = 0; i < otherPlayer.length; i++) {
+      head = otherPlayer[i];
       ctx.fillRect(head.x * size.x, head.y * size.y, size.x, size.y)
     }
 

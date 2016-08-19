@@ -33,7 +33,7 @@ module.exports = function (playerA, playerB) {
 
   self.playerB.snake = [];
   for (i = 0; i < 5; i++) {
-    self.playerA.snake.push({ x: scenario.width - 1 - i, y:0 })
+    self.playerB.snake.push({ x: scenario.width - 1 - i, y:0 })
   }
 
   // initing directions
@@ -75,6 +75,8 @@ module.exports = function (playerA, playerB) {
     if (playerA.direction === Direction.DOWN) new_head.y ++;
 
     snake.push(new_head);
+
+    var food = self.food;
 
     if(new_head.x == food.x && new_head.y == food.y) {
 
@@ -154,11 +156,11 @@ module.exports = function (playerA, playerB) {
 
 
     // sending feedbacks
-    playerA.emit('update', JSON.stringify({
+    playerA.socket.emit('update', JSON.stringify({
       you: playerA.snake, food: self.food, other: playerB.snake, direction: playerA.direction
     }));
 
-    playerB.emit('update', JSON.stringify({
+    playerB.socket.emit('update', JSON.stringify({
       you: playerB.snake, food: self.food, other: playerA.snake, direction: playerB.direction
     }));
 
