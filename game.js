@@ -201,7 +201,7 @@ module.exports = function (playerA, playerB) {
 
 
 
-          }, 300)
+          }, constants.GAME_VELOCITY)
 
         }, 500)
 

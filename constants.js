@@ -12,5 +12,7 @@ module.exports = {
     WAITING_TO_BEGIN: 'waiting'
   },
 
+  GAME_VELOCITY: 60,
+
   scenario: { height: 40, width: 40 }
 };

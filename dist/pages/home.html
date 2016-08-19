@@ -6,8 +6,29 @@
     <img ng-repeat="i in vm.score track by $index" ng-src="assets/images/{{i}}.svg" class="score"/>
 </div>
 
-<!-- Loading -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Modal Header</h3>
+      </div>
+      <div class="modal-body">
+        <h4 class="modal-contents">Modal Header</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Loading -->
 <div ng-show="vm.status=='waiting'">
   <div class="message--cntr">
       <img ng-repeat="i in vm.message track by $index" ng-src="assets/images/{{i}}.png" class="message"/>
@@ -19,10 +40,10 @@
 </div>
 
 
-<div ng-show="vm.status=='counting'" style=" position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-  <h2>{{vm.count}}</h2>
+<div ng-show="vm.status=='counting'" style=" position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center">
+  <h1>{{vm.count}}</h1>
   <h4>Jogando contra <strong>{{vm.adv}}</strong></h4>
-  </div>
+</div>
 
 
 <div ng-show="vm.status=='idle'" style=" position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">

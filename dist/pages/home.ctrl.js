@@ -5,7 +5,11 @@ var ControllerStatus = {
   COUNTING: 'counting'
 }
 
-
+function showMessage(options) {
+  $('#myModal').modal('show');
+  $('.modal-title').text(options.title);
+  $('.modal-contents').text(options.message);
+}
 
 function decodeScore(decode) {
   var score = [];
@@ -99,10 +103,15 @@ var homeCtrl = function ($interval, $uibModal, $stateParams, $state, $scope) {
     console.log('lost!', data)
     data = JSON.parse(data);
 
+    showMessage({
+      title: 'Ups, you lost!',
+      message: 'We\'re sorry for that. Your score was ' + data.score
+
+    })
+
     setTimeout(function () {
       vm.status = ControllerStatus.IDLE;
       $scope.$apply();
-      alert('you lost! score: ' + data.score);
     }, 500)
 
   });
@@ -120,11 +129,15 @@ var homeCtrl = function ($interval, $uibModal, $stateParams, $state, $scope) {
   socket.on('win', function(data) {
 
     data = JSON.parse(data);
+    showMessage({
+      title: 'You won!!',
+      message: 'Keep playing and get on the top score! This time you got ' + data.score + ' points!'
+
+    })
 
     setTimeout(function () {
       vm.status = ControllerStatus.IDLE;
       $scope.$apply();
-      alert('you WIN!!!!! score: ' + data.score);
 
     }, 500);
 
