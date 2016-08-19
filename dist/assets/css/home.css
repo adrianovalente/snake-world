@@ -10,6 +10,42 @@
   float: right;
 }
 
+.score--cntr {
+  float: right;
+}
+
+.username--cntr {
+  position: absolute;
+  top: 24px;
+}
+
+.username {
+  height: 60px;
+  float: left;
+}
+
+.message {
+  height: 12px;
+  float: left;
+}
+
+.message + .message {
+  margin-left: 12px;
+}
+
+
+.message--cntr {
+  position: absolute;
+  top: 43%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+.username + .username {
+  margin-left: 12px;
+}
+
 .score + .score {
   margin-right: 12px;
 }

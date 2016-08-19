@@ -30,19 +30,19 @@ io.on('connection', function(socket){
     players.attach(new Player(data.id, data.name, socket));
   });
 
-  init_snake();
-  init_food();
-  direction = Direction.RIGHT;
-  score = 0;
-  interval = setInterval(function () {
-    update_snake();
-  }, 60);
-
-  socket.on('direction', function(dir) {
-    console.log(dir)
-    dir = JSON.parse(dir);
-    direction = dir.dir;
-  });
+  // init_snake();
+  // init_food();
+  // direction = Direction.RIGHT;
+  // score = 0;
+  // interval = setInterval(function () {
+  //   update_snake();
+  // }, 60);
+  //
+  // socket.on('direction', function(dir) {
+  //   console.log(dir)
+  //   dir = JSON.parse(dir);
+  //   direction = dir.dir;
+  // });
 
 });
 

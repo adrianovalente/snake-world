@@ -7,11 +7,16 @@ function decodeScore(decode) {
   }
   return score;
 }
+function decodeStr(decode) {
+  return decode.toUpperCase().split("");
+}
 
 var homeCtrl = function ($interval, $uibModal) {
   var vm = this;
   var socket = io();
   vm.score = decodeScore(0);
+  vm.user  = decodeStr('Usuario');
+  vm.message  = decodeStr('Searching for opponent...');
   var score = 0;
   var scenario = { height: 40, width: 40 };
   var c = document.getElementById('canvas');
@@ -51,6 +56,7 @@ var homeCtrl = function ($interval, $uibModal) {
     modalInstance.result.then(function (name) {
       vm.name = name;
       vm.loading = true;
+      vm.user = decodeStr(name);
       socket.emit('hello', JSON.stringify({ name: name, id: id }))
 
     }, function () {

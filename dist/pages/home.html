@@ -1,15 +1,17 @@
 <img src="assets/images/SNAKE.svg" alt="snake title" class="logo" />
+<div class="username--cntr">
+    <img ng-repeat="i in vm.user track by $index" ng-src="assets/images/{{i}}.png" class="username"/>
+</div>
+<div class="score--cntr">
+    <img ng-repeat="i in vm.score track by $index" ng-src="assets/images/{{i}}.svg" class="score"/>
+</div>
 
-
-<img ng-repeat="i in vm.score track by $index" ng-src="assets/images/{{i}}.svg" class="score"/>
-
-
-
+<!-- Loading -->
 
 <div ng-if="vm.loading">
-  <p class="centeredPage">
-    Esperando um usuario se conectar...
-  </p>
+  <div class="message--cntr">
+      <img ng-repeat="i in vm.message track by $index" ng-src="assets/images/{{i}}.png" class="message"/>
+  </div>
   <div class="spinner">
     <div class="double-bounce1"></div>
     <div class="double-bounce2"></div>
