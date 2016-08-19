@@ -1,0 +1,21 @@
+.message-centered {
+  position: absolute;
+  top: 35%;
+  left: 52%;
+  transform: translate(-50%, -50%);
+}
+
+.underline {
+  height: 9px;
+}
+
+.invisible-block {
+  height: 90px;
+  width: 750px;
+  background-color: #A7C997;
+}
+
+.block {
+  margin-bottom: -28px;
+  margin-top: 24px;
+}
