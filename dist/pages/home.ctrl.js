@@ -25,6 +25,7 @@ var homeCtrl = function ($interval, $uibModal) {
   vm.score = decodeScore(0);
   vm.user  = decodeStr('Usuario');
   vm.message  = decodeStr('Searching for opponent');
+  vm.ready = false;
   var score = 0;
   var scenario = { height: 40, width: 40 };
   var c = document.getElementById('canvas');
@@ -41,30 +42,12 @@ var homeCtrl = function ($interval, $uibModal) {
 
 
   socket.on('hello', function (id) {
-    console.log('hello');
-    var modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'pages/modal.html',
-      controller: 'modalCtrl',
-      controllerAs: 'modal',
-      size: size,
-      resolve: {
-        name: function () {
-          return vm.name;
-        }
-      }
-    });
-
-    modalInstance.result.then(function (name) {
-      vm.name = name;
-      vm.loading = true;
-      vm.user = decodeStr(name);
-      socket.emit('hello', JSON.stringify({ name: name, id: id }))
-
-    }, function () {
-      console.log('Modal dismissed at: ' + new Date());
-    });
-
+    vm.ready = true;
+    //
+    // vm.name = name;
+    // vm.loading = true;
+    // vm.user = decodeStr(name);
+    // socket.emit('hello', JSON.stringify({ name: name, id: id }))
 
   });
 

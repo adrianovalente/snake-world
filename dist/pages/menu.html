@@ -1,0 +1,20 @@
+<img src="assets/images/SNAKE.svg" alt="snake title" class="logo" />
+<form ng-submit="vm.submit()">
+  <div class="message-centered">
+      <img ng-repeat="i in vm.message track by $index" ng-src="assets/images/{{i}}.png" class="username"/>
+      <label for="name">
+        <div class="block">
+            <img ng-repeat="i in vm.name track by $index" ng-src="assets/images/{{i}}.png" class="username"/>
+        </div>
+        <div class="block">
+            <div class="invisible-block">
+
+            </div>
+            <img ng-src="assets/images/line.png" class="underline"/>
+        </div>
+
+      </label>
+  </div>
+
+  <input type="text" name="name" value="name" ng-model="vm.name" id="name" class="custom-input" style="color: #A7C997;">
+</form>

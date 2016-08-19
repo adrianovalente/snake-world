@@ -11,7 +11,12 @@ angular
         templateUrl: 'pages/home.html',
         controller: 'homeCtrl',
         controllerAs: 'vm'
-
+      })
+      .state('menu', {
+        url: '/menu',
+        templateUrl: 'pages/menu.html',
+        controller: 'menuCtrl',
+        controllerAs: 'vm'
       });
 
   });
