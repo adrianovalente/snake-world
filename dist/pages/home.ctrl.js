@@ -7,8 +7,16 @@ function decodeScore(decode) {
   }
   return score;
 }
+
 function decodeStr(decode) {
-  return decode.toUpperCase().split("");
+  var temp = decode.toUpperCase().split("");
+  temp = temp.map(function(char) {
+    if(char == " ") {
+      return "espaco";
+    }
+    return char;
+  })
+  return temp;
 }
 
 var homeCtrl = function ($interval, $uibModal) {
@@ -16,7 +24,7 @@ var homeCtrl = function ($interval, $uibModal) {
   var socket = io();
   vm.score = decodeScore(0);
   vm.user  = decodeStr('Usuario');
-  vm.message  = decodeStr('Searching for opponent...');
+  vm.message  = decodeStr('Searching for opponent');
   var score = 0;
   var scenario = { height: 40, width: 40 };
   var c = document.getElementById('canvas');
