@@ -76,7 +76,7 @@ var homeCtrl = function ($interval, $uibModal) {
 
     data = JSON.parse(data);
     alert('you lost! score: ' + data.score);
-    window.location.reload();
+    //window.location.reload();
 
   });
 
@@ -84,7 +84,7 @@ var homeCtrl = function ($interval, $uibModal) {
 
     data = JSON.parse(data);
     alert('you WIN!!!!! score: ' + data.score);
-    window.location.reload();
+    //window.location.reload();
 
   });
 
