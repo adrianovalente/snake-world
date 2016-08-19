@@ -3,6 +3,19 @@
 
 <img ng-repeat="i in vm.score track by $index" ng-src="assets/images/{{i}}.svg" class="score"/>
 
+
+
+
+<div ng-if="vm.loading">
+  <p class="centeredPage">
+    Esperando um usuario se conectar...
+  </p>
+  <div class="spinner">
+    <div class="double-bounce1"></div>
+    <div class="double-bounce2"></div>
+  </div>
+</div>
+
 <div id="game-container">
   <canvas id="canvas" width="600" height="600"></canvas><br/>
 </div>

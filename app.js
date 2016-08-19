@@ -30,7 +30,6 @@ io.on('connection', function(socket){
     players.attach(new Player(data.id, data.name, socket));
   });
 
-  /**
   init_snake();
   init_food();
   direction = Direction.RIGHT;
@@ -44,7 +43,7 @@ io.on('connection', function(socket){
     dir = JSON.parse(dir);
     direction = dir.dir;
   });
-   */
+
 });
 
 

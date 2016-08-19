@@ -20,7 +20,7 @@ var homeCtrl = function ($interval, $uibModal) {
   var can_turn = true;
   var maxScore = 0;
   var size = { x: c.width / scenario.width, y: c.height / scenario.height }
-
+  vm.loading = false;
   $interval(function () {
     score++;
     vm.score = decodeScore(score);
@@ -50,7 +50,9 @@ var homeCtrl = function ($interval, $uibModal) {
 
     modalInstance.result.then(function (name) {
       vm.name = name;
+      vm.loading = true;
       socket.emit('hello', JSON.stringify({ name: name, id: id }))
+
     }, function () {
       console.log('Modal dismissed at: ' + new Date());
     });
@@ -59,7 +61,7 @@ var homeCtrl = function ($interval, $uibModal) {
   });
 
   socket.on('update', function(positions) {
-
+    console.log('update!', positions)
     positions = JSON.parse(positions);
     food = positions.food;
     snake = positions.snake;
@@ -68,7 +70,7 @@ var homeCtrl = function ($interval, $uibModal) {
   });
 
   socket.on('lost', function(data) {
-
+    console.log('lost!', data)
     data = JSON.parse(data);
     alert('you lost! score: ' + data.score);
     window.location.reload();
@@ -76,6 +78,7 @@ var homeCtrl = function ($interval, $uibModal) {
   });
 
   socket.on('score', function(data) {
+    console.log('score!', data)
     data = JSON.parse(data);
     document.getElementById('score-label').textContent = 'Your score: ' + data.score;
   });

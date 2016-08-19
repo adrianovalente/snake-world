@@ -4,7 +4,7 @@ var modalCtrl = function ($uibModalInstance) {
     console.log('my name', vm.nome);
     $uibModalInstance.close(vm.nome);
   }
-  
+
 }
 
 angular
