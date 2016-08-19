@@ -7,7 +7,7 @@ angular
 
     $stateProvider
       .state('home', {
-        url: '/welcome',
+        url: '/welcome/:name',
         templateUrl: 'pages/home.html',
         controller: 'homeCtrl',
         controllerAs: 'vm'

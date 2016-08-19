@@ -9,11 +9,11 @@ function decodeStr(decode) {
   return temp;
 }
 
-var menuCtrl = function() {
+var menuCtrl = function($state) {
   var vm = this;
   vm.message = decodeStr("Escolha seu nome");
   vm.submit = function() {
-    alert('oi');
+    $state.go('home', {name: vm.name})
   }
 }
 

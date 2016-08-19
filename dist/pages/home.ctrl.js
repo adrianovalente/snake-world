@@ -19,11 +19,11 @@ function decodeStr(decode) {
   return temp;
 }
 
-var homeCtrl = function ($interval, $uibModal) {
+var homeCtrl = function ($interval, $uibModal, $stateParams, $state) {
   var vm = this;
   var socket = io();
   vm.score = decodeScore(0);
-  vm.user  = decodeStr('Usuario');
+  vm.user = decodeStr($stateParams.name);
   vm.message  = decodeStr('Searching for opponent');
   vm.ready = false;
   var score = 0;
@@ -40,14 +40,16 @@ var homeCtrl = function ($interval, $uibModal) {
     UP: 2, DOWN: 3
   };
 
+  if (!$stateParams) {
+    $state.go('menu');
+  }
 
   socket.on('hello', function (id) {
     vm.ready = true;
-    //
-    // vm.name = name;
-    // vm.loading = true;
-    // vm.user = decodeStr(name);
-    // socket.emit('hello', JSON.stringify({ name: name, id: id }))
+
+    vm.loading = true;
+    console.log($stateParams.name);
+    socket.emit('hello', JSON.stringify({ name: vm.user, id: id }))
 
   });
 
