@@ -1,6 +1,6 @@
 angular
-  .module('app', ['ui.router'])
-  
+  .module('app', ['ui.router', 'ui.bootstrap'])
+
   .config(function routing($urlRouterProvider, $locationProvider, $stateProvider) {
     console.log('routes loaded!');
     $urlRouterProvider.otherwise('/welcome');
