@@ -9,7 +9,7 @@ module.exports = {
 
   attach: function (player) {
     players.push(player);
-    player.wantsToPlay()
+    //player.wantsToPlay()
   }
 
 }

@@ -1,3 +1,11 @@
+var ControllerStatus = {
+  WAITING: 'waiting',
+  PLAYING: 'playing',
+  IDLE: 'idle'
+}
+
+
+
 function decodeScore(decode) {
   var score = [];
   var temp = decode;
@@ -19,13 +27,22 @@ function decodeStr(decode) {
   return temp;
 }
 
-var homeCtrl = function ($interval, $uibModal, $stateParams, $state) {
+var homeCtrl = function ($interval, $uibModal, $stateParams, $state, $scope) {
   var vm = this;
+
+  vm.status = ControllerStatus.IDLE;
+
   var socket = io();
   vm.score = decodeScore(0);
   vm.user = decodeStr($stateParams.name);
   vm.message  = decodeStr('Searching for opponent');
   vm.ready = false;
+
+  vm.startPlaying = function () {
+    socket.emit('request');
+    vm.status = ControllerStatus.WAITING;
+
+  }
 
   var scenario = { height: 40, width: 40 };
   var c = document.getElementById('canvas');
@@ -54,6 +71,10 @@ var homeCtrl = function ($interval, $uibModal, $stateParams, $state) {
 
   socket.on('update', function(positions) {
     console.log('update!', positions);
+    vm.status = ControllerStatus.PLAYING;
+
+    // ups
+    $scope.$apply();
 
     positions = JSON.parse(positions);
 
@@ -68,16 +89,25 @@ var homeCtrl = function ($interval, $uibModal, $stateParams, $state) {
   socket.on('lost', function(data) {
     console.log('lost!', data)
     data = JSON.parse(data);
-    alert('you lost! score: ' + data.score);
-    //window.location.reload();
+
+    setTimeout(function () {
+      vm.status = ControllerStatus.IDLE;
+      $scope.$apply();
+      alert('you lost! score: ' + data.score);
+    }, 500)
 
   });
 
   socket.on('win', function(data) {
 
     data = JSON.parse(data);
-    alert('you WIN!!!!! score: ' + data.score);
-    //window.location.reload();
+
+    setTimeout(function () {
+      vm.status = ControllerStatus.IDLE;
+      $scope.$apply();
+      alert('you WIN!!!!! score: ' + data.score);
+
+    }, 500);
 
   });
 
