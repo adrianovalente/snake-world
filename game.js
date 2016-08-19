@@ -1,5 +1,6 @@
 const constants = require('./constants');
 const scenario = constants.scenario;
+const _ = require('lodash');
 
 var Direction = {
   RIGHT: 0, LEFT: 1,
@@ -90,7 +91,7 @@ module.exports = function (playerA, playerB) {
       snake.shift();
     }
 
-    if (should_die(snake, playerB.snake)) {
+    if (should_die(snake, playerB.snake, playerA.direction)) {
       clearInterval(self.interval);
       self.status = constants.GameStatus.ENDED;
       playerA.socket.emit('lost', JSON.stringify({
@@ -137,7 +138,7 @@ module.exports = function (playerA, playerB) {
     }
 
     // it means that playerB has lost
-    if (should_die(snake, playerA.snake)) {
+    if (should_die(snake, playerA.snake, playerB.direction)) {
       clearInterval(self.interval);
       self.status = constants.GameStatus.ENDED;
       playerB.socket.emit('lost', JSON.stringify({
@@ -166,14 +167,21 @@ module.exports = function (playerA, playerB) {
 
 
 
-  }, 150)
+  }, 300)
 
 
 
 };
 
-function should_die(snake, otherSnake) {
-  var snake_head = snake[snake.length - 1];
+function should_die(snake, otherSnake, direction) {
+
+  var snake_head = _.clone(snake[snake.length - 1]);
+
+  if (direction === Direction.RIGHT)  snake_head.x ++;
+  if (direction === Direction.LEFT) snake_head.x --;
+  if (direction === Direction.UP) snake_head.y --;
+  if (direction === Direction.DOWN) snake_head.y ++;
+
   if (snake_head.x < 0 || snake_head.x > scenario.width) return true;
   if (snake_head.y < 0 || snake_head.y > scenario.height) return true;
 
