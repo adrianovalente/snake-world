@@ -1,5 +1,7 @@
 var constants = require('./constants');
 var PlayerStatus = constants.PlayerStatus;
+var games = require('./gamesController');
+var _ = require('lodash');
 
 module.exports = function (id, name, socket) {
 
@@ -12,7 +14,12 @@ module.exports = function (id, name, socket) {
   self.snake = [];
   self.wins = 0;
 
-  self.socket.on('request', function () {
+  self.socket.on('disconnect', function () {
+    self.bye();
+  })
+
+
+    self.socket.on('request', function () {
     self.wantsToPlay()
   });
 
@@ -21,6 +28,11 @@ module.exports = function (id, name, socket) {
   }
 
   self.bye = function () {
+
+    _.forEach(games.all(), function (game) {
+      game.onGiveUp(self.id)
+    });
+
     self.status = PlayerStatus.REMOVED;
   }
 

@@ -6,5 +6,9 @@ module.exports = {
 
     console.log('new game! ' + game.toString())
 
+  },
+
+  all: function () {
+    return games;
   }
 }

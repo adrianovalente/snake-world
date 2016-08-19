@@ -10,6 +10,34 @@ var Direction = {
 module.exports = function (playerA, playerB) {
   var self = this;
 
+  self.onGiveUp = function (id) {
+    if (self.status != constants.GameStatus.PLAYING) return;
+
+    if (playerA.id == id) {
+      clearInterval(self.interval);
+      self.status = constants.GameStatus.ENDED;
+
+      // player B won
+      playerB.wins++
+      playerB.socket.emit('win', JSON.stringify({
+        score: playerB.score
+      }));
+    }
+
+    if (playerB.id == id) {
+      clearInterval(self.interval);
+      self.status = constants.GameStatus.ENDED;
+
+      // player A won
+      playerA.wins++
+      playerA.socket.emit('win', JSON.stringify({
+        score: playerA.score
+      }));
+    }
+
+
+  }
+
   self.status = constants.GameStatus.RUNNING;
 
   function init_food() {
