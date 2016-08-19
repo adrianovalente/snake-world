@@ -9,6 +9,7 @@ module.exports = function (id, name, socket) {
   self.name = name;
   self.status = PlayerStatus.IDLE;
   self.socket = socket;
+  self.snake = [];
 
   self.wantsToPlay = function () {
     self.status = PlayerStatus.WAITING;
