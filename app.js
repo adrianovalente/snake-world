@@ -58,19 +58,6 @@ var Direction = {
   UP: 2, DOWN: 3
 };
 
-function init_snake() {
-  snake = [];
-  for (var i = 0; i < 5; i++) {
-    snake.push({ x: i, y:0 })
-  }
-}
-
-function init_food() {
-  food = {
-    x: Math.floor(Math.random() * scenario.width),
-    y: Math.floor(Math.random() * scenario.height)
-  }
-}
 
 function update_snake() {
   var snake_head = snake[snake.length - 1];
