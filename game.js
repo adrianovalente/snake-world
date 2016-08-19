@@ -61,113 +61,124 @@ module.exports = function (playerA, playerB) {
     playerB.direction = dir.dir;
   });
 
-  self.interval = setInterval(function () {
+  setTimeout(function () {
+    playerA.socket.emit('prepare', JSON.stringify({count: 3, adv: playerB.name.join('')}));
+    playerB.socket.emit('prepare', JSON.stringify({count: 3, adv: playerA.name.join('')}));
 
-    // updating snake A
-    var snake = playerA.snake;
+    setTimeout(function () {
+      playerA.socket.emit('prepare', JSON.stringify({count: 2, adv: playerB.name.join('')}));
+      playerB.socket.emit('prepare', JSON.stringify({count: 2, adv: playerA.name.join('')}));
 
-    var snake_head = snake[snake.length - 1];
+      setTimeout(function () {
+        playerA.socket.emit('prepare', JSON.stringify({count: 1, adv: playerB.name.join('')}));
+        playerB.socket.emit('prepare', JSON.stringify({count: 1, adv: playerA.name.join('')}));
 
-    var new_head = { x: snake_head.x, y: snake_head.y}
+        setTimeout(function () {
 
-    if (playerA.direction === Direction.RIGHT)  new_head.x ++;
-    if (playerA.direction === Direction.LEFT) new_head.x --;
-    if (playerA.direction === Direction.UP) new_head.y --;
-    if (playerA.direction === Direction.DOWN) new_head.y ++;
+          self.interval = setInterval(function () {
 
-    snake.push(new_head);
+            // updating snake A
+            var snake = playerA.snake;
 
-    var food = self.food;
+            var snake_head = snake[snake.length - 1];
 
-    if(new_head.x == food.x && new_head.y == food.y) {
+            var new_head = { x: snake_head.x, y: snake_head.y}
 
-      playerA.score++;
-      playerA.socket.emit('score', JSON.stringify({
-        score: playerA.score
-      }));
-      init_food();
+            if (playerA.direction === Direction.RIGHT)  new_head.x ++;
+            if (playerA.direction === Direction.LEFT) new_head.x --;
+            if (playerA.direction === Direction.UP) new_head.y --;
+            if (playerA.direction === Direction.DOWN) new_head.y ++;
 
-    } else {
-      snake.shift();
-    }
+            snake.push(new_head);
 
-    if (should_die(snake, playerB.snake, playerA.direction)) {
-      clearInterval(self.interval);
-      self.status = constants.GameStatus.ENDED;
-      playerA.socket.emit('lost', JSON.stringify({
-        score: playerA.score
-      }));
+            var food = self.food;
 
-      playerB.socket.emit('win', JSON.stringify({
-        score: playerB.score
-      }));
+            if(new_head.x == food.x && new_head.y == food.y) {
 
-    } else {
-      //playerA.emit('update', JSON.stringify({
-      //  you: playerA.snake, food: self.food, other: playerB.snake
-      //}));
-    }
+              playerA.score++;
+              playerA.socket.emit('score', JSON.stringify({
+                score: playerA.score
+              }));
+              init_food();
 
+            } else {
+              snake.shift();
+            }
 
+            if (should_die(snake, playerB.snake, playerA.direction)) {
+              clearInterval(self.interval);
+              self.status = constants.GameStatus.ENDED;
+              playerA.socket.emit('lost', JSON.stringify({
+                score: playerA.score
+              }));
 
-    // updating player B
+              playerB.socket.emit('win', JSON.stringify({
+                score: playerB.score
+              }));
 
-    snake = playerB.snake;
+            }
 
-    snake_head = snake[snake.length - 1];
+            // updating player B
 
-    new_head = { x: snake_head.x, y: snake_head.y};
+            snake = playerB.snake;
 
-    if (playerB.direction === Direction.RIGHT)  new_head.x ++;
-    if (playerB.direction === Direction.LEFT) new_head.x --;
-    if (playerB.direction === Direction.UP) new_head.y --;
-    if (playerB.direction === Direction.DOWN) new_head.y ++;
+            snake_head = snake[snake.length - 1];
 
-    snake.push(new_head);
+            new_head = { x: snake_head.x, y: snake_head.y};
 
-    if(new_head.x == food.x && new_head.y == food.y) {
+            if (playerB.direction === Direction.RIGHT)  new_head.x ++;
+            if (playerB.direction === Direction.LEFT) new_head.x --;
+            if (playerB.direction === Direction.UP) new_head.y --;
+            if (playerB.direction === Direction.DOWN) new_head.y ++;
 
-      playerB.score++;
-      playerB.socket.emit('score', JSON.stringify({
-        score: playerB.score
-      }));
-      init_food();
+            snake.push(new_head);
 
-    } else {
-      snake.shift();
-    }
+            if(new_head.x == food.x && new_head.y == food.y) {
 
-    // it means that playerB has lost
-    if (should_die(snake, playerA.snake, playerB.direction)) {
-      clearInterval(self.interval);
-      self.status = constants.GameStatus.ENDED;
-      playerB.socket.emit('lost', JSON.stringify({
-        score: playerB.score
-      }));
+              playerB.score++;
+              playerB.socket.emit('score', JSON.stringify({
+                score: playerB.score
+              }));
+              init_food();
 
-      playerA.socket.emit('win', JSON.stringify({
-        score: playerA.score
-      }));
+            } else {
+              snake.shift();
+            }
 
-    } else {
-      //playerB.emit('update', JSON.stringify({
-      //  you: playerA.snake, food: self.food, other: playerB.snake
-      //}));
-    }
+            // it means that playerB has lost
+            if (should_die(snake, playerA.snake, playerB.direction)) {
+              clearInterval(self.interval);
+              self.status = constants.GameStatus.ENDED;
+              playerB.socket.emit('lost', JSON.stringify({
+                score: playerB.score
+              }));
 
+              playerA.socket.emit('win', JSON.stringify({
+                score: playerA.score
+              }));
 
-    // sending feedbacks
-    playerA.socket.emit('update', JSON.stringify({
-      you: playerA.snake, food: self.food, other: playerB.snake, direction: playerA.direction
-    }));
-
-    playerB.socket.emit('update', JSON.stringify({
-      you: playerB.snake, food: self.food, other: playerA.snake, direction: playerB.direction
-    }));
+            }
 
 
+            // sending feedbacks
+            playerA.socket.emit('update', JSON.stringify({
+              you: playerA.snake, food: self.food, other: playerB.snake, direction: playerA.direction
+            }));
 
-  }, 300)
+            playerB.socket.emit('update', JSON.stringify({
+              you: playerB.snake, food: self.food, other: playerA.snake, direction: playerB.direction
+            }));
+
+
+
+          }, 300)
+
+        }, 500)
+
+      }, 500)
+    }, 500)
+
+  }, 500);
 
 
 

@@ -19,8 +19,13 @@
 </div>
 
 
-<div ng-show="vm.status=='idle'" style=" position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-">
+<div ng-show="vm.status=='counting'" style=" position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+  <h2>{{vm.count}}</h2>
+  <h4>Jogando contra <strong>{{vm.adv}}</strong></h4>
+  </div>
+
+
+<div ng-show="vm.status=='idle'" style=" position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
 
   <button ng-click="vm.startPlaying()" style="padding: 20px; background-color: #5a8546;">CLICK HERE TO START</button>
 

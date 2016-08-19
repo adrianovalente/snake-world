@@ -1,7 +1,8 @@
 var ControllerStatus = {
   WAITING: 'waiting',
   PLAYING: 'playing',
-  IDLE: 'idle'
+  IDLE: 'idle',
+  COUNTING: 'counting'
 }
 
 
@@ -97,6 +98,16 @@ var homeCtrl = function ($interval, $uibModal, $stateParams, $state, $scope) {
     }, 500)
 
   });
+
+  socket.on('prepare', function (data) {
+
+    console.log('OPA')
+    data = JSON.parse(data);
+    vm.status = ControllerStatus.COUNTING;
+    vm.count = data.count;
+    vm.adv = data.adv;
+    $scope.$apply();
+  })
 
   socket.on('win', function(data) {
 
