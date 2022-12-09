@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/adrianovalente/snake-world#readme",
   "dependencies": {
-    "express": "^4.14.0",
+    "express": "^4.17.3",
     "lodash": "^4.17.13",
     "node-uuid": "^1.4.7",
     "socket.io": "^1.4.8"
